@@ -1,0 +1,69 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}{{ listing.title }}{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="listing-container">
+            <h1 class="listing-title">{{ listing.title }}</h1>
+            <div class="listing-image">
+                {% if listing.image_url %}
+                    <img src="{{ listing.image_url }}" alt="{{ listing.title }}">
+                {% endif %}
+            </div>
+            <div class="listing-details">
+                <p><strong>Description:</strong> {{ listing.description }}</p>
+                <p><strong>Current Price:</strong> ${{ listing.get_current_price }}</p>
+                <p><strong>Category:</strong> {{ listing.category }}</p>
+                <p><strong>Created by:</strong> {{ listing.owner.username }}</p>
+            </div>
+
+            {% if is_owner %}
+                <form method="post" class="form-group">
+                    {% csrf_token %}
+                    <button type="submit" name="close" class="btn btn-danger btn-custom">Close Auction</button>
+                </form>
+            {% elif is_winner %}
+                <p class="alert alert-success">Congratulations! You won this auction.</p>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+                <form method="post" class="form-group">
+                    {% csrf_token %}
+                    <button type="submit" name="watchlist" class="btn btn-primary btn-custom">
+                        {% if is_in_watchlist %}Remove from Watchlist{% else %}Add to Watchlist{% endif %}
+                    </button>
+                </form>
+
+                <h2>Place a Bid</h2>
+                <form method="post" class="form-group">
+                    {% csrf_token %}
+                    {{ bid_form.as_p }}
+                    <button type="submit" name="bid" class="btn btn-success btn-custom">Place Bid</button>
+                </form>
+
+                <h2>Add a Comment</h2>
+                <form method="post" class="form-group">
+                    {% csrf_token %}
+                    {{ comment_form.as_p }}
+                    <button type="submit" name="comment" class="btn btn-info btn-custom">Add Comment</button>
+                </form>
+            {% else %}
+                <p><a href="{% url 'login' %}" class="btn btn-primary">Log in</a> to place a bid, add to watchlist, or comment.</p>
+            {% endif %}
+
+            <div class="comments-section">
+                <h2>Comments</h2>
+                <ul>
+                    {% for comment in comments %}
+                        <li><strong>{{ comment.commenter.username }}</strong>: {{ comment.content }}</li>
+                    {% empty %}
+                        <li>No comments yet.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <a href="{% url 'index' %}" class="btn btn-secondary mt-3">Back to Home</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,37 @@
+/* styles.css */
+
+.listing-list {
+    list-style-type: none; /* Remove default list styling */
+    padding: 0;            /* Remove default padding */
+    margin: 0;             /* Remove default margin */
+}
+
+.listing-item {
+    border: 1px solid #ddd; /* Light gray border */
+    border-radius: 5px;     /* Rounded corners */
+    padding: 15px;          /* Padding inside each listing */
+    margin-bottom: 15px;    /* Space between listings */
+    display: flex;          /* Align items horizontally */
+    align-items: flex-start;/* Align items at the start */
+    background-color: #f9f9f9; /* Light background color for better contrast */
+}
+
+.listing-image {
+    margin-right: 15px;     /* Space between image and text */
+}
+
+.listing-image img {
+    max-width: 150px;       /* Set a maximum width for images */
+    height: auto;           /* Maintain aspect ratio */
+    border-radius: 5px;     /* Rounded corners for images */
+}
+
+.listing-details {
+    flex: 1;                /* Take up remaining space */
+}
+
+/* Add space between list items */
+ul li {
+    margin-bottom: 10px;
+}
+

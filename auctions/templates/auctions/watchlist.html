@@ -1,0 +1,28 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}Watchlist{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1>Your Watchlist</h1>
+        <ul class="list-group">
+            {% for item in watchlist_items %}
+                <li class="list-group-item d-flex align-items-center">
+                    <div class="listing-image mr-3">
+                        {% if item.auction.image_url %}
+                            <img src="{{ item.auction.image_url }}" alt="{{ item.auction.title }}" class="img-thumbnail" style="max-width: 100px;">
+                        {% endif %}
+                    </div>
+                    <div class="listing-details">
+                        <h2><a href="{% url 'listing_view' item.auction.id %}">{{ item.auction.title }}</a></h2>
+                        <p>{{ item.auction.description|slice:":100" }}{% if item.auction.description|length > 100 %}...{% endif %}</p>
+                        <p><strong>Current Price:</strong> ${{ item.auction.get_current_price }}</p>
+                    </div>
+                </li>
+            {% empty %}
+                <li class="list-group-item">You have no items in your watchlist.</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'index' %}" class="btn btn-secondary mt-3">Back to Home</a>
+    </div>
+{% endblock %}

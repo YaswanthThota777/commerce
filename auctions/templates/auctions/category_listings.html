@@ -1,0 +1,25 @@
+<!-- templates/auctions/category_listings.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ category.name }} Listings</title>
+</head>
+<body>
+    <h1>{{ category.name }} Listings</h1>
+    <ul>
+        {% for listing in listings %}
+            <li>
+                <a href="{% url 'listing_view' listing.id %}">{{ listing.title }}</a>
+                <p>{{ listing.description }}</p>
+                <p>Current Price: ${{ listing.get_current_price }}</p>
+                {% if listing.image_url %}
+                    <img src="{{ listing.image_url }}" alt="{{ listing.title }}" style="max-width: 200px;">
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>No active listings in this category.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'categories_view' %}">Back to Categories</a>
+</body>
+</html>
